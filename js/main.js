@@ -49,7 +49,7 @@ const lng = getRandomFloat(139.70000, 139.80000);
 
 const createAd = (number) => ({
   author: {
-    avatar: `img/avatars/user0${number}.png`,
+    avatar: `img/avatars/user${number < 10 ? 0 : ''}${number}.png`,
   },
   offer: {
     title: `${getRandomArrayElement(TITLES)} предложение!`,
@@ -72,5 +72,5 @@ const createAd = (number) => ({
 
 const ads = new Array(ADS_NUMBER).fill(null);
 for (let number = 0; number < ads.length; number++) {
-  ads[number] = createAd(number);
+  ads[number] = createAd(number + 1);
 }
