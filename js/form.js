@@ -8,6 +8,12 @@ const MIN_PRICES = {
   'house': 5000,
   'palace': 10000,
 };
+const conditions = {
+  '1': (value) => value !== 1,
+  '2': (value) => value > 2 || value < 1,
+  '3': (value) => value < 1,
+  '100': (value) => value !== 0,
+};
 
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
@@ -68,31 +74,10 @@ priceInput.addEventListener('input', () => {
 
 roomNumberSelect.addEventListener('input', () => {
   const value = roomNumberSelect.value;
-  if (Number(value) === 1) {
-    roomCapacitySelect.querySelectorAll('option').forEach((item) => {
-      if (Number(item.value) !== 1) {
-        item.remove();
-      }
-    });
-  } else if (Number(value) === 2) {
-    roomCapacitySelect.querySelectorAll('option').forEach((item) => {
-      if (Number(item.value) > 2 || Number(item.value) < 1) {
-        item.remove();
-      }
-    });
-  } else if (Number(value) === 3) {
-    roomCapacitySelect.querySelectorAll('option').forEach((item) => {
-      if (Number(item.value) < 1) {
-        item.remove();
-      }
-    });
-  } else {
-    roomCapacitySelect.querySelectorAll('option').forEach((item) => {
-      if (Number(item.value) !== 0) {
-        item.remove();
-      }
-    });
-  }
+  const condition = conditions[value];
+  roomCapacitySelect.querySelectorAll('option').forEach((item) => {
+    item.disabled = condition(Number(item.value));
+  });
 });
 
 export {setInactive, setActive};
