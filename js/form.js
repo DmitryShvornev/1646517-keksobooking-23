@@ -24,6 +24,8 @@ const priceInput = adForm.querySelector('#price');
 const housingTypeSelect = adForm.querySelector('#type');
 const roomNumberSelect = adForm.querySelector('#room_number');
 const roomCapacitySelect = adForm.querySelector('#capacity');
+const timeInSelect = adForm.querySelector('#timein');
+const timeOutSelect = adForm.querySelector('#timeout');
 
 const setInactive = () => {
   adForm.classList.add('ad-form--disabled');
@@ -79,5 +81,18 @@ roomNumberSelect.addEventListener('input', () => {
     item.disabled = condition(Number(item.value));
   });
 });
+
+housingTypeSelect.addEventListener('input', () => {
+  priceInput.placeholder = MIN_PRICES[housingTypeSelect.value];
+});
+
+timeInSelect.addEventListener('input', () => {
+  timeOutSelect.value = timeInSelect.value;
+});
+
+timeOutSelect.addEventListener('input', () => {
+  timeInSelect.value = timeOutSelect.value;
+});
+
 
 export {setInactive, setActive};
