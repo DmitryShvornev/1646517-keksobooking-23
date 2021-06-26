@@ -2,7 +2,6 @@ import {createAd, ADS_NUMBER} from './data.js';
 
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
 const ads = new Array(ADS_NUMBER).fill(null).map((_, index) => createAd(index + 1));
-const mapCanvas = document.querySelector('#map-canvas');
 
 const getHousingTypeName = (type) => {
   let housingType = '';
@@ -59,5 +58,4 @@ const renderOffer = ({offer, author}) => {
   return adElement;
 };
 
-const renderOffers = (offers) => offers.map(renderOffer);
-mapCanvas.appendChild(renderOffers(ads)[0]);
+export {ads, renderOffer};
