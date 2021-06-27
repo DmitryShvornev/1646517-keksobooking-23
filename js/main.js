@@ -4,42 +4,43 @@ import {setInactive, setActive} from './form.js';
 setInactive();
 
 const address = document.querySelector('#address');
+const DEFAULT_COORDS = {
+  lat: 35.6895000,
+  lng: 139.6917100,
+};
+const DEFAULT_ZOOM = 13;
+const MAP_TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const MAP_TILE_LAYER_ATTRIBUTE  = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const map = L.map('map-canvas')
   .on('load', () => {
     setActive();
   })
-  .setView({
-    lat: 35.6895000,
-    lng: 139.6917100,
-  }, 13);
+  .setView(DEFAULT_COORDS, DEFAULT_ZOOM);
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  MAP_TILE_LAYER,
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: MAP_TILE_LAYER_ATTRIBUTE,
   },
 ).addTo(map);
 
 const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: '../leaflet/images/marker-icon-2x.png',
+  iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
 const pinIcon = L.icon({
-  iconUrl: '../leaflet/images/marker-icon.png',
+  iconUrl: '../img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
 const mainMarker = L.marker(
-  {
-    lat: 35.68950,
-    lng: 139.69171,
-  },
+  DEFAULT_COORDS,
   {
     draggable: true,
     icon: mainPinIcon,
