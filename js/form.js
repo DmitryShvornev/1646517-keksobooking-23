@@ -15,6 +15,10 @@ const conditions = {
   '100': (value) => value !== 0,
 };
 
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const errorMessageElement = errorMessageTemplate.cloneNode(true);
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const successMessageElement = successMessageTemplate.cloneNode(true);
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -46,6 +50,14 @@ const setActive = () => {
   mapFilters.classList.remove('map__filters--disabled');
   for (const select of selects) {
     select.disabled = false;
+  }
+};
+
+const removeMessage = () => {
+  if (document.body.contains(successMessageElement)) {
+    successMessageElement.remove();
+  } else if (document.body.contains(errorMessageElement)) {
+    errorMessageElement.remove();
   }
 };
 
@@ -94,5 +106,15 @@ timeOutSelect.addEventListener('input', () => {
   timeInSelect.value = timeOutSelect.value;
 });
 
+document.addEventListener('keydown', (evt) => {
+  if (evt.keyCode === 27) {
+    removeMessage();
+  }
+});
 
-export {setInactive, setActive};
+document.addEventListener('click', () => {
+  removeMessage();
+});
+
+
+export {setInactive, setActive, adForm, successMessageElement, errorMessageElement};
