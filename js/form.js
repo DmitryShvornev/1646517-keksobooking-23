@@ -98,13 +98,11 @@ timeOutSelect.addEventListener('input', () => {
 });
 
 document.addEventListener('keydown', (evt) => {
-  if (evt.keyCode === 27) {
+  if (evt.code === 'Escape') {
     removeMessage();
   }
 });
 
-document.addEventListener('click', () => {
-  removeMessage();
-});
+document.addEventListener('click', removeMessage);
 
 export {setInactive, setActive, adForm, successMessageTemplate, errorMessageTemplate};

@@ -1,8 +1,8 @@
 const alertTemplate = document.querySelector('#data-error').content.querySelector('.error');
 const alertElement = alertTemplate.cloneNode(true);
 const ALERT_SHOW_TIME = 5000;
-const RECIEVE = 'https://23.javascript.pages.academy/keksobooking/data';
-const SEND = 'https://23.javascript.pages.academy/keksobooking';
+const RECEIVE_URL = 'https://23.javascript.pages.academy/keksobooking/data';
+const SEND_URL = 'https://23.javascript.pages.academy/keksobooking';
 
 const showAlert = () => {
   document.body.append(alertElement);
@@ -12,7 +12,7 @@ const showAlert = () => {
 };
 
 const getData = (onSuccess, onFail) => {
-  fetch(RECIEVE)
+  fetch(RECEIVE_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -21,27 +21,21 @@ const getData = (onSuccess, onFail) => {
     .then((ads) => {
       onSuccess(ads);
     })
-    .catch(() => {
-      onFail();
-    });
+    .catch(onFail);
 };
 
 const sendData = (onSuccess, onFail, data) => {
   fetch(
-    SEND,
+    SEND_URL,
     {
       method: 'POST',
       body: data,
     },
   ).then((response) => {
     if (response.ok) {
-      onSuccess();
-    } else {
-      onFail();
-    }
-  }).catch(() => {
-    onFail();
-  });
+      return onSuccess();
+    } throw new Error('Ошибка отправки данных');
+  }).catch(onFail);
 };
 
 export {getData, sendData, showAlert};
