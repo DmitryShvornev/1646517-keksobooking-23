@@ -1,6 +1,6 @@
-import {getData, sendData, showAlert} from'./api.js';
+import {sendData} from'./api.js';
 import {renderOffer} from './popup.js';
-import {setActive, adForm, successMessageTemplate, errorMessageTemplate} from './form.js';
+import {adForm, successMessageTemplate, errorMessageTemplate} from './form.js';
 
 const address = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
@@ -15,11 +15,7 @@ const MAP_TILE_LAYER_ATTRIBUTE  = '&copy; <a href="https://www.openstreetmap.org
 const MARKER_COUNT = 10;
 
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    setActive();
-  })
-  .setView(DEFAULT_COORDS, DEFAULT_ZOOM);
+const map = L.map('map-canvas');
 
 L.tileLayer(
   MAP_TILE_LAYER,
@@ -92,12 +88,17 @@ resetButton.addEventListener('click', () => {
   resetPage();
 });
 
-
-mainMarker.addTo(map);
-address.readOnly = true;
-address.defaultValue = `${DEFAULT_COORDS.lat}, ${DEFAULT_COORDS.lng}`;
-getData((ads) => {
+const initPins = (ads) => {
   ads.slice(0, MARKER_COUNT).forEach((ad) => {
     createMarker(ad);
   });
-}, showAlert);
+};
+
+const initMapEventLoader = (onLoadHandler) => {
+  mainMarker.addTo(map);
+  address.readOnly = true;
+  address.defaultValue = `${DEFAULT_COORDS.lat}, ${DEFAULT_COORDS.lng}`;
+  map.on('load', onLoadHandler).setView(DEFAULT_COORDS, DEFAULT_ZOOM);
+};
+
+export {initPins, initMapEventLoader};
