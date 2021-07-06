@@ -15,6 +15,8 @@ const conditions = {
   '100': (value) => value !== 0,
 };
 
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -27,26 +29,27 @@ const roomCapacitySelect = adForm.querySelector('#capacity');
 const timeInSelect = adForm.querySelector('#timein');
 const timeOutSelect = adForm.querySelector('#timeout');
 
-const setInactive = () => {
-  adForm.classList.add('ad-form--disabled');
+const toggleState = (flag) => {
+  adForm.classList.toggle('ad-form--disabled');
   for (const fieldset of fieldsets) {
-    fieldset.disabled = true;
+    fieldset.disabled = flag;
   }
-  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.classList.toggle('map__filters--disabled');
   for (const select of selects) {
-    select.disabled = true;
+    select.disabled = flag;
   }
 };
 
+const setInactive = () => {
+  toggleState(true);
+};
+
 const setActive = () => {
-  adForm.classList.remove('ad-form--disabled');
-  for (const fieldset of fieldsets) {
-    fieldset.disabled = false;
-  }
-  mapFilters.classList.remove('map__filters--disabled');
-  for (const select of selects) {
-    select.disabled = false;
-  }
+  toggleState(false);
+};
+
+const removeMessage = () => {
+  document.querySelectorAll('.success, .error').forEach((messageElement) => messageElement.remove());
 };
 
 titleInput.addEventListener('input', () => {
@@ -94,5 +97,12 @@ timeOutSelect.addEventListener('input', () => {
   timeInSelect.value = timeOutSelect.value;
 });
 
+document.addEventListener('keydown', (evt) => {
+  if (evt.code === 'Escape') {
+    removeMessage();
+  }
+});
 
-export {setInactive, setActive};
+document.addEventListener('click', removeMessage);
+
+export {setInactive, setActive, adForm, successMessageTemplate, errorMessageTemplate};
