@@ -90,7 +90,7 @@ resetButton.addEventListener('click', () => {
 });
 
 const initPins = (ads) => {
-  ads.slice(0, MARKER_COUNT).filter(adFilter).forEach((ad) => {
+  ads.filter(adFilter).slice(0, MARKER_COUNT).forEach((ad) => {
     createMarker(ad);
   });
 };
@@ -102,4 +102,4 @@ const initMapEventLoader = (onLoadHandler) => {
   map.on('load', onLoadHandler).setView(DEFAULT_COORDS, DEFAULT_ZOOM);
 };
 
-export {initPins, initMapEventLoader};
+export {initPins, initMapEventLoader, markerGroup};
