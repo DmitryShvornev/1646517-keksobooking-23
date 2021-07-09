@@ -1,6 +1,7 @@
 import {sendData} from'./api.js';
 import {renderOffer} from './popup.js';
 import {adForm, successMessageTemplate, errorMessageTemplate} from './form.js';
+import {adFilter} from './filter.js';
 
 const address = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
@@ -89,7 +90,7 @@ resetButton.addEventListener('click', () => {
 });
 
 const initPins = (ads) => {
-  ads.slice(0, MARKER_COUNT).forEach((ad) => {
+  ads.filter(adFilter).slice(0, MARKER_COUNT).forEach((ad) => {
     createMarker(ad);
   });
 };
@@ -101,4 +102,4 @@ const initMapEventLoader = (onLoadHandler) => {
   map.on('load', onLoadHandler).setView(DEFAULT_COORDS, DEFAULT_ZOOM);
 };
 
-export {initPins, initMapEventLoader};
+export {initPins, initMapEventLoader, markerGroup};
