@@ -8,6 +8,7 @@ const housingTypes = {
   'hotel':'Отель',
 };
 
+
 const renderOffer = ({offer, author}) => {
   const adElement = adTemplate.cloneNode(true);
   adElement.querySelector('.popup__title').textContent = offer.title;
@@ -30,14 +31,14 @@ const renderOffer = ({offer, author}) => {
   adElement.querySelector('.popup__photo').remove();
   if (offer.photos) {
     const photosListElement = adElement.querySelector('.popup__photos');
-    for (const element of offer.photos) {
+    offer.photos.forEach((element) => {
       const photo = document.createElement('img');
       photo.width = 45;
       photo.height = 40;
       photo.src = element;
       photo.classList.add('popup__photo');
       photosListElement.appendChild(photo);
-    }
+    });
   }
   adElement.querySelector('.popup__avatar').src = author.avatar;
   return adElement;
