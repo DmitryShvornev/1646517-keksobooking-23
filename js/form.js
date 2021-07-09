@@ -61,13 +61,13 @@ photoChooser.addEventListener('change', onPhotoChange);
 
 const toggleState = (flag) => {
   adForm.classList.toggle('ad-form--disabled');
-  for (const fieldset of fieldsets) {
+  fieldsets.forEach((fieldset) => {
     fieldset.disabled = flag;
-  }
+  });
   mapFilters.classList.toggle('map__filters--disabled');
-  for (const select of selects) {
+  selects.forEach((select) => {
     select.disabled = flag;
-  }
+  });
 };
 
 const setInactive = () => {
@@ -78,7 +78,7 @@ const setActive = () => {
   toggleState(false);
 };
 
-const removeMessage = () => {
+const onRemoveMessage = () => {
   document.querySelectorAll('.success, .error').forEach((messageElement) => messageElement.remove());
 };
 
@@ -129,10 +129,10 @@ timeOutSelect.addEventListener('input', () => {
 
 document.addEventListener('keydown', (evt) => {
   if (evt.code === 'Escape') {
-    removeMessage();
+    onRemoveMessage();
   }
 });
 
-document.addEventListener('click', removeMessage);
+document.addEventListener('click', onRemoveMessage);
 
 export {setInactive, setActive, adForm, successMessageTemplate, errorMessageTemplate};
