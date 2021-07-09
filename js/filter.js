@@ -3,7 +3,6 @@ const housingPriceFilter = document.querySelector('#housing-price');
 const housingRoomsFilter = document.querySelector('#housing-rooms');
 const housingGuestsFilter = document.querySelector('#housing-guests');
 const mapFilterForm = document.querySelector('.map__filters');
-const checkedBenefits = document.querySelectorAll('.map__checkbox:checked');
 
 const prices = {
   'middle': (value) => value >= 10000  && value <= 50000,
@@ -17,16 +16,16 @@ const adFilter = ({offer}) => {
   const pricesCondition = (housingPriceFilter.value === 'any') || (prices[housingPriceFilter.value](offer.price));
   const roomsCondition = (housingRoomsFilter.value === 'any') || (offer.rooms === housingRoomsFilter.value);
   const guestsCondition = (housingGuestsFilter.value === 'any') || (offer.rooms === housingGuestsFilter.value);
-  let benefitsCondition = true;
-  if (offer.benefits) {
-    for (const item of checkedBenefits) {
-      const feature = item.value;
-      if (!offer.benefits.includes(feature)) {
-        benefitsCondition = false;
-      }
+  const checkedFeatures = document.querySelectorAll('.map__checkbox:checked');
+  if (checkedFeatures && !offer.features) {
+    return false;
+  }
+  for (const item of checkedFeatures) {
+    if (!offer.features.includes(item.value)) {
+      return false;
     }
   }
-  return housingCondition && pricesCondition && roomsCondition && guestsCondition && benefitsCondition;
+  return housingCondition && pricesCondition && roomsCondition && guestsCondition;
 };
 
 const initFilterEventLoader = (handler) => {
