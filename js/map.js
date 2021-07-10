@@ -1,6 +1,6 @@
 import {sendData} from'./api.js';
 import {renderOffer} from './popup.js';
-import {adForm, successMessageTemplate, errorMessageTemplate} from './form.js';
+import {adForm, successMessageTemplate, errorMessageTemplate, onRemoveMessage, onKeyDown} from './form.js';
 import {adFilter} from './filter.js';
 
 const address = document.querySelector('#address');
@@ -28,13 +28,13 @@ L.tileLayer(
 const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
 const pinIcon = L.icon({
-  iconUrl: '../img/pin.svg',
+  iconUrl: 'img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
@@ -72,12 +72,18 @@ const resetPage = () => {
   address.value = `${DEFAULT_COORDS.lat}, ${DEFAULT_COORDS.lng}`;
 };
 
+const showSuccessMessage = () => {
+  const successMessageElement = successMessageTemplate.cloneNode(true);
+  document.addEventListener('keydown', onKeyDown);
+  document.addEventListener('click', onRemoveMessage);
+  document.body.append(successMessageElement);
+};
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
   sendData(() => {
-    const successMessageElement = successMessageTemplate.cloneNode(true);
-    document.body.append(successMessageElement);
+    showSuccessMessage();
     resetPage();
   },
   () => {

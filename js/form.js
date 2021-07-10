@@ -78,10 +78,6 @@ const setActive = () => {
   toggleState(false);
 };
 
-const onRemoveMessage = () => {
-  document.querySelectorAll('.success, .error').forEach((messageElement) => messageElement.remove());
-};
-
 titleInput.addEventListener('input', () => {
   const valueLength = titleInput.value.length;
   if (valueLength < MIN_TITLE_LENGTH) {
@@ -127,12 +123,17 @@ timeOutSelect.addEventListener('input', () => {
   timeInSelect.value = timeOutSelect.value;
 });
 
-document.addEventListener('keydown', (evt) => {
+const onKeyDown = (evt) => {
   if (evt.code === 'Escape') {
     onRemoveMessage();
   }
-});
+};
 
-document.addEventListener('click', onRemoveMessage);
 
-export {setInactive, setActive, adForm, successMessageTemplate, errorMessageTemplate};
+function onRemoveMessage() {
+  document.querySelectorAll('.success, .error').forEach((messageElement) => messageElement.remove());
+  document.removeEventListener('click', onRemoveMessage);
+  document.removeEventListener('keydown', onKeyDown);
+}
+
+export {setInactive, setActive, adForm, successMessageTemplate, errorMessageTemplate, onRemoveMessage, onKeyDown};

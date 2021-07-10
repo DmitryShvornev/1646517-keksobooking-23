@@ -1,3 +1,6 @@
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
+
 const housingTypeFilter = document.querySelector('#housing-type');
 const housingPriceFilter = document.querySelector('#housing-price');
 const housingRoomsFilter = document.querySelector('#housing-rooms');
@@ -5,9 +8,9 @@ const housingGuestsFilter = document.querySelector('#housing-guests');
 const mapFilterForm = document.querySelector('.map__filters');
 
 const prices = {
-  'middle': (value) => value >= 10000  && value <= 50000,
-  'low': (value) =>  value < 10000,
-  'high': (value) => value > 50000,
+  'middle': (value) => value >= LOW_PRICE  && value <= HIGH_PRICE,
+  'low': (value) =>  value < LOW_PRICE,
+  'high': (value) => value > HIGH_PRICE,
 };
 
 
