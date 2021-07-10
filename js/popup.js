@@ -10,26 +10,34 @@ const housingTypes = {
   'hotel':'Отель',
 };
 
+const setTextContent = (element, value) => {
+  if (value) {
+    element.textContent = value;
+    return;
+  }
+  element.remove();
+};
+
 
 const renderOffer = ({offer, author}) => {
   const adElement = adTemplate.cloneNode(true);
-  if (offer.title) {
-    adElement.querySelector('.popup__title').textContent = offer.title;
-  }
-  if (offer.address) {
-    adElement.querySelector('.popup__text--address').textContent = offer.address;
-  }
+  setTextContent(adElement.querySelector('.popup__title'), offer.title);
+  setTextContent(adElement.querySelector('.popup__text--address'), offer.address);
   if (offer.price) {
     adElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  } else {
+    adElement.querySelector('.popup__text--price').remove();
   }
-  if (offer.type) {
-    adElement.querySelector('.popup__type').textContent = housingTypes[offer.type];
-  }
+  setTextContent(adElement.querySelector('.popup__type'), housingTypes[offer.type]);
   if (offer.rooms && offer.guests) {
     adElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  } else {
+    adElement.querySelector('.popup__text--capacity').remove();
   }
   if (offer.checkin && offer.checkout) {
     adElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  } else {
+    adElement.querySelector('.popup__text--time').remove();
   }
   if (offer.features){
     const featureListElement = adElement.querySelector('.popup__features');
@@ -40,10 +48,10 @@ const renderOffer = ({offer, author}) => {
         item.remove();
       }
     });
+  } else {
+    adElement.querySelector('.popup__features').remove();
   }
-  if (offer.description){
-    adElement.querySelector('.popup__description').textContent = offer.description;
-  }
+  setTextContent(adElement.querySelector('.popup__description'), offer.description);
   adElement.querySelector('.popup__photo').remove();
   if (offer.photos) {
     const photosListElement = adElement.querySelector('.popup__photos');
@@ -55,9 +63,13 @@ const renderOffer = ({offer, author}) => {
       photo.classList.add('popup__photo');
       photosListElement.appendChild(photo);
     });
+  } else {
+    adElement.querySelector('.popup__photos').remove();
   }
   if (author.avatar) {
     adElement.querySelector('.popup__avatar').src = author.avatar;
+  } else {
+    adElement.querySelector('.popup__avatar').remove();
   }
   return adElement;
 };
